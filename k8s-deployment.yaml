@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: vulnerable-management-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: management-app
+  template:
+    metadata:
+      labels:
+        app: management-app
+    spec:
+      containers:
+      - name: management-app
+        image: myrepo/management-app:latest
+        # VULN: Missing CPU/Memory limits (CKV_K8S_43)
+        # VULN: Running as privileged (CKV_K8S_16)
+        # VULN: Allowing privilege escalation (CKV_K8S_20)
+        # VULN: Running as root (CKV_K8S_40)
+        securityContext:
+          privileged: true
+          allowPrivilegeEscalation: true
+          runAsUser: 0
+        ports:
+        - containerPort: 8080

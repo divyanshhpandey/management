@@ -1,0 +1,18 @@
+version: '3.8'
+
+services:
+  # This service allows us to build the container image for Trivy to scan,
+  # and spin it up live so OWASP ZAP (DAST) can attack it.
+  vulnerable-management-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: vulnerable-management-app:latest
+    container_name: vulnerable_management_dast_target
+    ports:
+      - "8081:8080" # Exposed for DAST scanning
+      - "2222:22"   # Exposed unnecessarily (Security misconfiguration)
+    environment:
+      - SPRING_PROFILES_ACTIVE=dev
+      # VULN: Hardcoded secrets in environment variables
+      - API_KEY=sk_test_1234567890abcdef
