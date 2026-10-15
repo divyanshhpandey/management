@@ -11,20 +11,22 @@ resource "aws_s3_bucket" "insecure_bucket" {
 
 # VULN: Security Group allows SSH from anywhere (CKV_AWS_24)
 resource "aws_security_group" "allow_all_ssh" {
-  name        = "allow_all_ssh"
-  description = "Allow SSH inbound traffic from anywhere"
+name        = "allow_all_ssh"
+description = "Allow SSH inbound traffic from anywhere"
 
-  ingress {
-    from_port   = 22
-    to_port     = 22
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
+ingress {
+description = "Allow SSH inbound traffic from anywhere"
+from_port   = 22
+to_port     = 22
+protocol    = "tcp"
+cidr_blocks = ["0.0.0.0/0"]
+}
 
-  egress {
-    from_port   = 0
-    to_port     = 0
-    protocol    = "-1"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
+egress {
+description = "Allow all outbound traffic"
+from_port   = 0
+to_port     = 0
+protocol    = "-1"
+cidr_blocks = ["0.0.0.0/0"]
+}
 }
