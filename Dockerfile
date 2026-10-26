@@ -25,4 +25,7 @@ ADD ./pom.xml /tmp/pom.xml
 
 COPY --from=build /build/target/*.jar /app/app.jar
 
+RUN useradd -m -u 1000 appuser && chown -R appuser:appuser /app
+USER appuser
+
 ENTRYPOINT ["java", "-jar", "/app/app.jar"]
