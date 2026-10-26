@@ -12,6 +12,8 @@ services:
     ports:
       - "8081:8080" # Exposed for DAST scanning
       - "2222:22"   # Exposed unnecessarily (Security misconfiguration)
+    security_opt:
+      - no-new-privileges:true
     environment:
       - SPRING_PROFILES_ACTIVE=dev
       # VULN: Hardcoded secrets in environment variables
